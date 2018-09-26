@@ -4,6 +4,8 @@
 *.bak
 *.orig
 
+build/*
+
 # Copied from https://github.com/github/gitignore/blob/master/C++.gitignore
 
 # Prerequisites
