@@ -79,13 +79,14 @@ macro(PROCESS_DEPENDENCY NAME REPOSITORY TAG SOURCE_SUBDIR)
 		message(FATAL_ERROR "Could not build and install project for ${DEPENDENCY_NAME} dependency: ${${DEPENDENCY_NAME}_CMAKE_ERROR}")
 	endif()
 
+	find_package(${NAME} REQUIRED)
 endmacro()
 
-PROCESS_DEPENDENCY(zlib https://github.com/madler/zlib.git v1.2.8 "."
+PROCESS_DEPENDENCY(ZLIB https://github.com/madler/zlib.git v1.2.8 "."
 	"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}"
 )
 
-PROCESS_DEPENDENCY(protobuf https://github.com/protocolbuffers/protobuf.git v3.5.1 "cmake"
+PROCESS_DEPENDENCY(Protobuf https://github.com/protocolbuffers/protobuf.git v3.5.1 "cmake"
    "-Dprotobuf_BUILD_SHARED_LIBS=ON"
    "-Dprotobuf_BUILD_TESTS=OFF"
    "-Dprotobuf_WITH_ZLIB=ON"
