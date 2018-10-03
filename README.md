@@ -1,8 +1,8 @@
 howto-protobuf-zlib - Examples for using Protobuf with zlib
 ===========================================================
 
-> &copy; Copyright 2018 [Simverge Software LLC](https://simverge.com), All Rights Reserved.
-
+> Copyright &copy; 2018 [Simverge Software LLC](https://simverge.com).
+> The source code in this project is released under the [MIT License](LICENSE.md).
 > [Este documento está disponible en español](LEEME.md).
 
 Overview
