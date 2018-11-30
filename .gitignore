@@ -7,9 +7,6 @@
 # All build files
 build/*
 
-# All protobuf .proto files
-*.proto
-
 # Copied from https://github.com/github/gitignore/blob/master/C++.gitignore
 
 # Prerequisites

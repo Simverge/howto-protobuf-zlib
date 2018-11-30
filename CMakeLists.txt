@@ -100,4 +100,9 @@ PROCESS_DEPENDENCY(Protobuf https://github.com/protocolbuffers/protobuf.git v3.5
    "-DZLIB_ROOT=${CMAKE_BINARY_DIR}"
 )
 
+# Copy missing protobuf header: google/protobuf/stubs/io_win32.h
+file(COPY "${CMAKE_BINARY_DIR}/Protobuf/src/google/protobuf/stubs/io_win32.h"
+	DESTINATION "${CMAKE_BINARY_DIR}/include/google/protobuf/stubs"
+)
+
 add_subdirectory(examples/cpp)
