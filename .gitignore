@@ -4,6 +4,9 @@
 *.bak
 *.orig
 
+# All VS Code configuration files
+.vscode/*
+
 # All build files
 build/*
 
