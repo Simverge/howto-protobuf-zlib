@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-
-
 #include "examples/cpp/blob.pb.h"
 
 #include <google/protobuf/io/zero_copy_stream_impl.h>
@@ -40,12 +38,12 @@ int main(int argc, char **argv)
 
 	if (argc < 3)
 	{
-		std::cerr << "Usage: " << argv[0] << " input-data-file output-blob-file" << std::endl;
+		std::cerr << "Usage: " << argv[0] << " input-data-file output-protobuf-file" << std::endl;
 		return -1;
 	}
 
 	char *dataPath = argv[1];
-	char *blobPath = argv[2];
+	char *protobufPath = argv[2];
 
 	// Read the data into the blob and write the blob.
 	simverge::Blob blob;
@@ -63,10 +61,10 @@ int main(int argc, char **argv)
 		
 		data->assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
 		in.close();
-		std::cout << "Creating new blob with " << data->size() << " bytes read from " << dataPath << std::endl;
+		std::cout << "Creating new Protobuf message with " << data->size() << " bytes read from " << dataPath << std::endl;
 
 		auto uncompressedBytes = blob.ByteSizeLong();
-		std::cout << "Uncompressed blob size (source path and data): " << uncompressedBytes << " bytes" << std::endl;
+		std::cout << "Uncompressed Protobuf size (source path and data): " << uncompressedBytes << " bytes" << std::endl;
 
 		std::unique_ptr<char[]> buffer(new char[uncompressedBytes]);
 		google::protobuf::io::ArrayOutputStream aos(buffer.get(), (int) uncompressedBytes);
@@ -75,15 +73,36 @@ int main(int argc, char **argv)
 		if (blob.SerializeToZeroCopyStream(&gos))
 		{
 			gos.Close();
-			auto compressedBytes = aos.ByteCount();
 
-			std::ofstream out(blobPath);
-			out.write(buffer.get(), compressedBytes);
+			if (gos.ZlibErrorCode() > 0)
+			{
+				auto compressedBytes = aos.ByteCount();
 
-			std::cout << "Wrote compressed blob of size " << compressedBytes << " bytes ("
-				<< (100.0 * (uncompressedBytes - compressedBytes) / uncompressedBytes) << "% compression ratio): "
-				<< blobPath << std::endl;
+				std::ofstream out(protobufPath, std::ios::binary);
+				out.write(buffer.get(), compressedBytes);
+
+				std::cout << "Wrote compressed Protobuf message of size " << compressedBytes << " bytes ("
+					<< (100.0 * (uncompressedBytes - compressedBytes) / uncompressedBytes) << "% compression ratio): "
+					<< protobufPath << std::endl;
+			}
+			else
+			{
+				std::cerr << "Could not compress Protobuf message (zlib error "
+					<< gos.ZlibErrorCode() << ")";
+				auto message = gos.ZlibErrorMessage();
+
+				if (message)
+				{
+					std::cerr << ": " << message;
+				}
+
+				std::cerr << std::endl;
+			}
 		}
+	}
+	else
+	{
+		std::cout << "Could not read input data file: " << dataPath << std::endl;
 	}
 
 	return 0;
