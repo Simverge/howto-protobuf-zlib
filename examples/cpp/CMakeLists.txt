@@ -8,10 +8,6 @@ endif ()
 
 protobuf_generate_cpp(PROTOBUF_SOURCES PROTOBUF_HEADERS ${PROTOBUF_PROTOS})
 
-set(DATA
-	Mona_Lisa.bmp
-)
-
 set(HEADERS
 	${PROTOBUF_HEADERS}
 )
@@ -37,7 +33,7 @@ include_directories(
 )
 
 add_definitions(${PROTOBUF_DEFINITIONS})
-add_executable(${READER_TARGET} ${READER_SOURCES} ${HEADERS} ${DATA})
+add_executable(${READER_TARGET} ${READER_SOURCES} ${HEADERS})
 target_link_libraries(${READER_TARGET} ${DEPENDENCIES})
 
 # Writer example
@@ -60,7 +56,7 @@ include_directories(
 )
 
 add_definitions(${PROTOBUF_DEFINITIONS})
-add_executable(${WRITER_TARGET} ${WRITER_SOURCES} ${HEADERS} ${DATA})
+add_executable(${WRITER_TARGET} ${WRITER_SOURCES} ${HEADERS})
 target_link_libraries(${WRITER_TARGET} ${DEPENDENCIES})
 
 # Installation

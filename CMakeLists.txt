@@ -106,3 +106,4 @@ file(COPY "${CMAKE_BINARY_DIR}/Protobuf/src/google/protobuf/stubs/io_win32.h"
 )
 
 add_subdirectory(examples/cpp)
+install(DIRECTORY data/ DESTINATION ${CMAKE_BINARY_DIR}/bin)
