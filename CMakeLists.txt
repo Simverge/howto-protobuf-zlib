@@ -86,6 +86,7 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 PROCESS_DEPENDENCY(ZLIB https://github.com/madler/zlib.git v1.2.8 "."
 	"-DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}"
+	"-DCMAKE_DEBUG_POSTFIX=d"
 )
 
 PROCESS_DEPENDENCY(Protobuf https://github.com/protocolbuffers/protobuf.git v3.5.1 "cmake"
